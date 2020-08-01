@@ -25,7 +25,9 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('szczecin', './assets/js/szczecin.js')
-    .addEntry('react', './assets/js/components/Home.js')
+    //.addEntry('react', './assets/js/components/Home.js')
+    .addStyleEntry('bootstrap', './assets/css/global.scss')
+    .addEntry('typescript', './assets/js/greeter.ts')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 
@@ -59,14 +61,14 @@ Encore
     .enableSassLoader()
 
     // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+    .enableTypeScriptLoader()
 
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+    .autoProvidejQuery()
 
     // uncomment if you use API Platform Admin (composer req api-admin)
     .enableReactPreset()

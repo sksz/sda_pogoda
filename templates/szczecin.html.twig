@@ -6,16 +6,19 @@
         {{ encore_entry_link_tags('szczecin') }}
     {% endblock %}
 
+    {% block navbar %}
+        {{ parent() }}
+    {% endblock %}
+
     {% block body %}
+        {{ parent() }}
         Temperatura: {{ temperature }} <br />
         Prędkość wiatru: {{ windSpeed }} <br />
         Kierunek wiatru: {{ windDirection }} <br />
         Ciśnienie: {{ pressure }} <br />
-        <div id="root"></div>
         <img src="{{ asset('build/img.jpg') }}" alt="ACME logo">
     {% endblock %}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('szczecin') }}
-    {{ encore_entry_script_tags('react') }}
 {% endblock %}

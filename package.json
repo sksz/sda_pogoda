@@ -2,10 +2,14 @@
     "devDependencies": {
         "@babel/preset-react": "^7.10.4",
         "@symfony/webpack-encore": "^0.30.0",
+        "bootstrap": "^4.5.0",
         "core-js": "^3.0.0",
         "jquery": "^3.5.1",
+        "popper.js": "^1.16.1",
         "regenerator-runtime": "^0.13.2",
         "sass-loader": "^8.0.0",
+        "ts-loader": "^8.0.1",
+        "typescript": "^3.9.7",
         "webpack-notifier": "^1.6.0"
     },
     "license": "UNLICENSED",
@@ -17,6 +21,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "bootstrap-star-rating": "^4.0.6",
+        "glyphicons": "^0.2.0",
         "node-sass": "^4.14.1",
         "nvm": "0.0.4",
         "prop-types": "^15.7.2",
