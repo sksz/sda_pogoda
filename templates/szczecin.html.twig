@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Szczecin - prognoza pogody{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        Temperatura: {{ temperature }} <br />
+        Prędkość wiatru: {{ windSpeed }} <br />
+        Kierunek wiatru: {{ windDirection }} <br />
+        Ciśnienie: {{ pressure }} </ br>
+        {% endblock %}
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>
