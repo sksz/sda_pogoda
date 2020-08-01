@@ -27,7 +27,12 @@ class BaseController extends AbstractController
     public function indexAction(Request $request, string $_format): Response
     {
         return $this->render(
-            'base.' . $_format . '.twig'
+            'base.' . $_format . '.twig',
+            [
+                'app' => [
+                    'user' => null,
+                ],
+            ]
         );
     }
 

@@ -15,6 +15,16 @@ import $ from 'jquery';
 import greet from './greet';
 import icons from 'glyphicons';
 
+document.addEventListener('DOMContentLoaded', function() {
+    var userRating = document.querySelector('.js-user-rating');
+    var isAuthenticated = userRating.dataset.isAuthenticated;
+
+    console.log(isAuthenticated);
+
+    // or with jQuery
+    //var isAuthenticated = $('.js-user-rating').data('isAuthenticated');
+});
+
 console.log('IO');
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
