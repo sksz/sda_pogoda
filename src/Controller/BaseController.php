@@ -37,20 +37,30 @@ class BaseController extends AbstractController
     }
 
     /**
-     * @Route("/szczecin", defaults={"_format"="html"}, name="szczecin")
+     * @Route("/weather", defaults={"_format"="html"}, name="weather")
      */
-    public function szczecinAction(Request $request, string $_format): Response
+    public function weatherAction(Request $request, string $_format): Response
     {
-        $weatherData = $this->imgwHandler->getData('szczecin');
+        $this->logger->info('Wyświetl pogodę dla miasta', [
+            'city' => $request->query->get('city')
+        ]);
 
+        return $this->renderWeatherView(
+            $this->imgwHandler->getData($request->query->get('city')),
+            $_format
+        );
+    }
+
+    private function renderWeatherView(array $data, string $_format): Response
+    {
         return $this->render(
             'city.' . $_format . '.twig',
             [
-                'temperature' => $weatherData['temperatura'],
-                'windSpeed' => $weatherData['predkosc_wiatru'],
-                'windDirectionDescription' => $weatherData['kierunek_wiatru_opis'],
-                'windDirectionDegrees' => $weatherData['kierunek_wiatru_stopnie'],
-                'pressure' => $weatherData['cisnienie'],
+                'temperature' => $data['temperatura'],
+                'windSpeed' => $data['predkosc_wiatru'],
+                'windDirectionDescription' => $data['kierunek_wiatru_opis'],
+                'windDirectionDegrees' => $data['kierunek_wiatru_stopnie'],
+                'pressure' => $data['cisnienie'],
             ]
         );
     }
