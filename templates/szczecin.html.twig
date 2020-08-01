@@ -1,17 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Szczecin - prognoza pogody{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}
+{# templates/.../szczecin.html.twig #}
+{% extends 'base.html.twig' %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        {{ encore_entry_link_tags('szczecin') }}
+    {% endblock %}
+
+    {% block body %}
         Temperatura: {{ temperature }} <br />
         Prędkość wiatru: {{ windSpeed }} <br />
         Kierunek wiatru: {{ windDirection }} <br />
-        Ciśnienie: {{ pressure }} </ br>
-        {% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
-</html>
+        Ciśnienie: {{ pressure }} <br />
+        <div id="root"></div>
+        <img src="{{ asset('build/img.jpg') }}" alt="ACME logo">
+    {% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('szczecin') }}
+    {{ encore_entry_script_tags('react') }}
+{% endblock %}
