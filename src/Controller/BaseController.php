@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Handler\ImgwHandler;
+use GuzzleHttp\Exception\ClientException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,25 @@ class BaseController extends AbstractController
                 ],
             ]
         );
+    }
+
+    /**
+     * @Route("/findCity", defaults={"_format"="html"}, name="findCity", methods={"POST"})
+     */
+    public function findCityAction(Request $request, string $_format): Response
+    {
+        $this->logger->info('Wyszukaj miasta', [
+            'city' => $request->request->get('city'),
+        ]);
+
+        try {
+            return $this->renderWeatherView(
+                $this->imgwHandler->getData($request->request->get('city')),
+                $_format
+            );
+        } catch (ClientException $exception) {
+            return $this->render('noCity.' . $_format . '.twig');
+        }
     }
 
     /**
