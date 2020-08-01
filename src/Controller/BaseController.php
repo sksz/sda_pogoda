@@ -44,11 +44,12 @@ class BaseController extends AbstractController
         $weatherData = $this->imgwHandler->getData('szczecin');
 
         return $this->render(
-            'szczecin.' . $_format . '.twig',
+            'city.' . $_format . '.twig',
             [
                 'temperature' => $weatherData['temperatura'],
                 'windSpeed' => $weatherData['predkosc_wiatru'],
-                'windDirection' => $weatherData['kierunek_wiatru'],
+                'windDirectionDescription' => $weatherData['kierunek_wiatru_opis'],
+                'windDirectionDegrees' => $weatherData['kierunek_wiatru_stopnie'],
                 'pressure' => $weatherData['cisnienie'],
             ]
         );

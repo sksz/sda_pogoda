@@ -55,7 +55,8 @@ class ImgwHandler
 
     private function parseData(array $data): array
     {
-        $data['kierunek_wiatru'] = $this->getWindDirection($data['kierunek_wiatru']);
+        $data['kierunek_wiatru_opis'] = $this->getWindDirection($data['kierunek_wiatru']);
+        $data['kierunek_wiatru_stopnie'] = $data['kierunek_wiatru'];
 
         return $data;
     }

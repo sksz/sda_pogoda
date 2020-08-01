@@ -24,7 +24,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
-    .addEntry('szczecin', './assets/js/szczecin.js')
+    .addEntry('city', './assets/js/city.js')
     //.addEntry('react', './assets/js/components/Home.js')
     .addStyleEntry('bootstrap', './assets/css/global.scss')
     .addEntry('typescript', './assets/js/greeter.ts')

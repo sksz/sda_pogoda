@@ -3,7 +3,7 @@
 
     {% block stylesheets %}
         {{ parent() }}
-        {{ encore_entry_link_tags('szczecin') }}
+        {{ encore_entry_link_tags('city') }}
     {% endblock %}
 
     {% block navbar %}
@@ -14,11 +14,14 @@
         {{ parent() }}
         Temperatura: {{ temperature }} <br />
         Prędkość wiatru: {{ windSpeed }} <br />
-        Kierunek wiatru: {{ windDirection }} <br />
+        Kierunek wiatru: {{ windDirectionDescription }} <br />
         Ciśnienie: {{ pressure }} <br />
-        <img src="{{ asset('build/img.jpg') }}" alt="ACME logo">
+        <div class="js-wind-direction" data-degrees="{{ windDirectionDegrees }}">
+            <!-- ... -->
+        </div>
+        <img id="arrow-image" src="{{ asset('build/arrow.png') }}" alt="arrow" />
     {% endblock %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('szczecin') }}
+    {{ encore_entry_script_tags('city') }}
 {% endblock %}
