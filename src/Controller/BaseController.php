@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Handler\ImgwHandler;
+use App\Handler\MesurementHandler;
+use App\Entity\Mesurement;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,10 +18,13 @@ class BaseController extends AbstractController
 
     private $imgwHandler;
 
-    public function __construct(LoggerInterface $logger, ImgwHandler $imgwHandler)
+    private $mesurementHandler;
+
+    public function __construct(LoggerInterface $logger, ImgwHandler $imgwHandler, MesurementHandler $mesurementHandler)
     {
         $this->logger = $logger;
         $this->imgwHandler = $imgwHandler;
+        $this->mesurementHandler = $mesurementHandler;
     }
 
     /**
@@ -68,11 +73,34 @@ class BaseController extends AbstractController
             'city' => $city,
         ]);
 
+        $mesurementData = $this->imgwHandler->getData($city);
+
+        $this->mesurementHandler->add(
+            $this->createMesurementEntity(
+                $mesurementData,
+                $city
+            )
+        );
+
         return $this->renderWeatherView(
-            $this->imgwHandler->getData($request->query->get('city')),
+            $mesurementData,
             $city,
             $_format
         );
+    }
+
+    private function createMesurementEntity(array $mesurementData, string $city): Mesurement
+    {
+        $mesurementEntity = new Mesurement();
+        $mesurementEntity
+            ->setCity($city)
+            ->setTemperature($mesurementData['temperatura'])
+            ->setWindSpeed($mesurementData['predkosc_wiatru'])
+            ->setWindDirection($mesurementData['kierunek_wiatru_stopnie'])
+            ->setPressure($mesurementData['cisnienie'])
+            ->setTimestamp(new \DateTime('NOW'));
+
+        return $mesurementEntity;
     }
 
     private function renderWeatherView(array $data, string $city, string $_format): Response

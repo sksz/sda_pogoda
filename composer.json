@@ -1,5 +1,5 @@
 {
-    "name": "sda_pogoda",
+    "name": "sda/sda_pogoda",
     "type": "project",
     "license": "proprietary",
     "description": "SDA sample weather procject",
@@ -25,6 +25,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "symfony/maker-bundle": "^1.20",
         "symfony/stopwatch": "^5.1",
         "symfony/twig-bundle": "^5.1",
         "symfony/web-profiler-bundle": "^5.1"
