@@ -26,6 +26,8 @@ class ImgwHandler
             compact('city')
         );
 
+        $city = $this->noPolishCharacters($city);
+
         $response = $this->client->request(
             'GET',
             self::IMGW_BASE_URL . $city,
@@ -54,6 +56,14 @@ class ImgwHandler
                 true
             )
         );
+    }
+
+    private function noPolishCharacters(string $city)
+    {
+        $city = strtolower($city);
+        $city = iconv('UTF-8', 'ISO-8859-1//TRANSLIT//IGNORE', $city);
+
+        return $city;
     }
 
     private function parseData(array $data): array
