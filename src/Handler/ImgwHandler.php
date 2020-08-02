@@ -29,6 +29,9 @@ class ImgwHandler
         $response = $this->client->request(
             'GET',
             self::IMGW_BASE_URL . $city,
+            [
+                'verify' => false,
+            ]
         );
 
         if ($response->getStatusCode() !== 200) {
