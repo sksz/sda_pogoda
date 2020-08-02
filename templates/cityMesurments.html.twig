@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+    {% block title %}{{ parent() }} - {{ city }}{% endblock %}
+    {% block body %}
+        Ilość pomiarów: {{ mesures|length }}
+        {% for mesure in mesures %}
+            {{ loop.index }}:
+                {{ mesure.city }}
+                {{ mesure.temperature }}
+                {{ mesure.pressure }}
+        {% else %}
+            Nie ma pomiarów.
+        {% endfor %}
+    {% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('city') }}
+{% endblock %}

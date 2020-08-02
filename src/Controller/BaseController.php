@@ -43,6 +43,24 @@ class BaseController extends AbstractController
     }
 
     /**
+     * @Route("/cityMesures", defaults={"_format"="html"}, name="cityMesures")
+     */
+    public function cityMesuresAction(Request $request, string $_format): Response
+    {
+        $mesures = $this->mesurementHandler->getCityRecords('szczecin');
+
+        $this->logger->info('mesures', ['mesures' => $mesures]);
+
+        return $this->render(
+            'cityMesurments.' . $_format . '.twig',
+            [
+                'city' => 'Szczecin',
+                'mesures' => $mesures,
+            ]
+        );
+    }
+
+    /**
      * @Route("/findCity", defaults={"_format"="html"}, name="findCity", methods={"POST"})
      */
     public function findCityAction(Request $request, string $_format): Response
