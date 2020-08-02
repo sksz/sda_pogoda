@@ -73,14 +73,26 @@ class BaseController extends AbstractController
             'city' => $city,
         ]);
 
-        $mesurementData = $this->imgwHandler->getData($city);
+        $cityRecords = $this->mesurementHandler->getCityRecords($city);
 
-        $this->mesurementHandler->add(
-            $this->createMesurementEntity(
+        if (empty($cityRecords)) {
+            $mesurementData = $this->imgwHandler->getData($city);
+            $this->mesurementHandler->add(
+                $this->createMesurementEntity(
+                    $mesurementData,
+                    $city
+                )
+            );
+
+            return $this->renderWeatherView(
                 $mesurementData,
-                $city
-            )
-        );
+                $city,
+                $_format
+            );
+        }
+
+        $mesurementData = $cityRecords[0]->convertToArray();
+        $mesurementData = $this->imgwHandler->parseData($mesurementData);
 
         return $this->renderWeatherView(
             $mesurementData,

@@ -123,4 +123,14 @@ class Mesurement
 
         return $this;
     }
+
+    public function convertToArray(): array
+    {
+        return [
+            'temperatura' => $this->temperature,
+            'predkosc_wiatru' => $this->windSpeed,
+            'kierunek_wiatru' => $this->windDirection,
+            'cisnienie' => $this->pressure,
+        ];
+    }
 }

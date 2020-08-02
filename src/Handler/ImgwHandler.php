@@ -83,7 +83,7 @@ class ImgwHandler
         return $city;
     }
 
-    private function parseData(array $data): array
+    public function parseData(array $data): array
     {
         $data['kierunek_wiatru_opis'] = $this->getWindDirection($data['kierunek_wiatru']);
         $data['kierunek_wiatru_stopnie'] = $data['kierunek_wiatru'];

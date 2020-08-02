@@ -19,22 +19,20 @@ class MesurementRepository extends ServiceEntityRepository
         parent::__construct($registry, Mesurement::class);
     }
 
-    // /**
-    //  * @return Mesurement[] Returns an array of Mesurement objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Mesurement[] Returns an array of Mesurement objects
+     */
+    public function findByCityDate(string $city, \DateTime $newerThan): array
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('mesurement')
+            ->andWhere('mesurement.city = :city')
+            ->andWhere('mesurement.timestamp >= :timestamp')
+            ->setParameter('city', $city)
+            ->setParameter('timestamp', $newerThan)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Mesurement
