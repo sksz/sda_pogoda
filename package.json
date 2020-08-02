@@ -7,7 +7,7 @@
         "jquery": "^3.5.1",
         "popper.js": "^1.16.1",
         "regenerator-runtime": "^0.13.2",
-        "sass-loader": "^8.0.0",
+        "sass-loader": "^9.0.2",
         "ts-loader": "^8.0.1",
         "typescript": "^3.9.7",
         "webpack-notifier": "^1.6.0"
@@ -21,6 +21,8 @@
         "build": "encore production --progress"
     },
     "dependencies": {
+        "bootstrap-icons": "^1.0.0-alpha5",
+        "bootstrap-sass": "^3.4.1",
         "bootstrap-star-rating": "^4.0.6",
         "glyphicons": "^0.2.0",
         "node-sass": "^4.14.1",

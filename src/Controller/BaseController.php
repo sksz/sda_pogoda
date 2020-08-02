@@ -46,14 +46,15 @@ class BaseController extends AbstractController
             'city' => $request->request->get('city'),
         ]);
 
+        $city = $request->request->get('city');
+
         try {
-            return $this->renderWeatherView(
-                $this->imgwHandler->getData($request->request->get('city')),
-                $_format
-            );
+            $this->imgwHandler->getData($city);
         } catch (ClientException $exception) {
             return $this->render('noCity.' . $_format . '.twig');
         }
+
+        return $this->redirectToRoute('weather', ['city' => $city]);
     }
 
     /**
@@ -61,17 +62,20 @@ class BaseController extends AbstractController
      */
     public function weatherAction(Request $request, string $_format): Response
     {
+        $city = $request->query->get('city');
+
         $this->logger->info('Wyświetl pogodę dla miasta', [
-            'city' => $request->query->get('city')
+            'city' => $city,
         ]);
 
         return $this->renderWeatherView(
             $this->imgwHandler->getData($request->query->get('city')),
+            $city,
             $_format
         );
     }
 
-    private function renderWeatherView(array $data, string $_format): Response
+    private function renderWeatherView(array $data, string $city, string $_format): Response
     {
         return $this->render(
             'city.' . $_format . '.twig',
@@ -81,6 +85,7 @@ class BaseController extends AbstractController
                 'windDirectionDescription' => $data['kierunek_wiatru_opis'],
                 'windDirectionDegrees' => $data['kierunek_wiatru_stopnie'],
                 'pressure' => $data['cisnienie'],
+                'city' => ucfirst($city),
             ]
         );
     }

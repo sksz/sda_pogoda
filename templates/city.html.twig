@@ -1,23 +1,11 @@
-{# templates/.../szczecin.html.twig #}
 {% extends 'base.html.twig' %}
-
-    {% block stylesheets %}
-        {{ parent() }}
-        {{ encore_entry_link_tags('city') }}
-    {% endblock %}
-
-    {% block navbar %}
-        {{ parent() }}
-    {% endblock %}
-
+    {% block title %}{{ parent() }} - {{ city }}{% endblock %}
     {% block body %}
-        {{ parent() }}
         Temperatura: {{ temperature }} <br />
         Prędkość wiatru: {{ windSpeed }} <br />
         Kierunek wiatru: {{ windDirectionDescription }} <br />
         Ciśnienie: {{ pressure }} <br />
         <div class="js-wind-direction" data-degrees="{{ windDirectionDegrees }}">
-            <!-- ... -->
         </div>
         <img id="arrow-image" src="{{ asset('build/arrow.png') }}" alt="arrow" />
     {% endblock %}

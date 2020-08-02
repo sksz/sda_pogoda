@@ -26,7 +26,7 @@ Encore
     .addEntry('app', './assets/js/app.js')
     .addEntry('city', './assets/js/city.js')
     //.addEntry('react', './assets/js/components/Home.js')
-    .addStyleEntry('bootstrap', './assets/css/global.scss')
+    .addStyleEntry('global', './assets/css/global.scss')
     .addEntry('typescript', './assets/js/greeter.ts')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
