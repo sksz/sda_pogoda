@@ -1,6 +1,8 @@
 {
+    "name": "sda_pogoda",
     "type": "project",
     "license": "proprietary",
+    "description": "SDA sample weather procject",
     "require": {
         "php": "^7.2.5",
         "ext-ctype": "*",
@@ -59,7 +61,8 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "@auto-scripts"
+            "@auto-scripts",
+            "yarn"
         ],
         "post-update-cmd": [
             "@auto-scripts"
