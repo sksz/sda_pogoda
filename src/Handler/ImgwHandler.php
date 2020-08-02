@@ -9,6 +9,18 @@ class ImgwHandler
 {
     const IMGW_BASE_URL = 'https://danepubliczne.imgw.pl/api/data/synop/station/';
 
+    const LETTERS_CONVERSION = [
+        '&#261;' => 'a',
+        '&#347;' => 's',
+        '&#263;' => 'c',
+        '&#281;' => 'e',
+        '&#380;' => 'z',
+        '&#378;' => 'z',
+        '&#324;' => 'n',
+        '&oacute;' => 'o',
+        '&#322;' => 'l',
+    ];
+
     private $client;
 
     private $logger;
@@ -61,7 +73,12 @@ class ImgwHandler
     private function noPolishCharacters(string $city)
     {
         $city = strtolower($city);
-        $city = iconv('UTF-8', 'ISO-8859-1//TRANSLIT//IGNORE', $city);
+
+        $city = mb_convert_encoding($city, "HTML-ENTITIES", "UTF-8");
+
+        foreach (self::LETTERS_CONVERSION as $fromLetter => $toLetter) {
+            $city = str_replace($fromLetter, $toLetter, $city);
+        }
 
         return $city;
     }
