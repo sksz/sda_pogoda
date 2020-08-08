@@ -9,6 +9,7 @@ use App\Entity\Mesurement;
 use App\Entity\Contact;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Log\LoggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -91,9 +92,12 @@ class BaseController extends AbstractController
 
     /**
      * @Route("/cityMesures", defaults={"_format"="html"}, name="cityMesures")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function cityMesuresAction(Request $request, string $_format): Response
     {
+        // $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $city = $request->query->get('city');
 
         $mesures = $this->mesurementHandler->getCityRecords($city);

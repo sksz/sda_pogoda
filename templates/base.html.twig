@@ -34,6 +34,15 @@
             </nav>
         {% endblock %}
         {% block body %}
+            {% for city in cities %}
+                <a href="weather?city={{ city }}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ city }}</h5>
+                    </div>
+                </a>
+            {% else %}
+                Nie ma pomiarów.
+            {% endfor %}
         {% endblock %}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}

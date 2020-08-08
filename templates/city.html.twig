@@ -8,7 +8,9 @@
         <div class="js-wind-direction" data-degrees="{{ windDirectionDegrees }}">
         </div>
         <img id="arrow-image" src="{{ asset('build/arrow.png') }}" alt="arrow" />
-        <br><a href="cityMesures?city={{ city }}" >Historia pomiarów</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <br><a href="cityMesures?city={{ city }}" >Historia pomiarów</a>
+        {% endif %}
     {% endblock %}
 
 {% block javascripts %}

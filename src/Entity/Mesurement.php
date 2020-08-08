@@ -54,7 +54,7 @@ class Mesurement
 
     public function getCity(): ?string
     {
-        return ucfirst($this->city);
+        return mb_convert_case($this->city, MB_CASE_TITLE, "UTF-8");
     }
 
     public function setCity(string $city): self
