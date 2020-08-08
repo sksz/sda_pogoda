@@ -54,7 +54,7 @@ class Mesurement
 
     public function getCity(): ?string
     {
-        return $this->city;
+        return ucfirst($this->city);
     }
 
     public function setCity(string $city): self

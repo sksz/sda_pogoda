@@ -1,0 +1,7 @@
+{% extends 'registerUser.html.twig' %}
+    {% block body %}
+        <div class="alert alert-danger" role="alert">
+            Podany użytkownik istnieje!
+        </div>
+        {{ parent() }}
+    {% endblock %}

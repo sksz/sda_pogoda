@@ -2,15 +2,22 @@
     {% block title %}{{ parent() }} - {{ city }}{% endblock %}
     {% block body %}
         Ilość pomiarów: {{ mesures|length }}
+        <div class="list-group">
         {% for mesure in mesures %}
-            <br><br>Pomiar nr {{ loop.index }}:<br>
-                Miasto: {{ mesure.city }}<br>
-                Temperatura: {{ mesure.temperature }}<br>
-                Ciśnienie: {{ mesure.pressure }}<br>
-                Czas pomiaru: {{ mesure.timestamp|date("Y-m-d h:i:s") }}
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ mesure.city }}</h5>
+                    <small>{{ mesure.timestamp|date("Y-m-d h:i:s") }}</small>
+                </div>
+                <p class="mb-1">
+                    Temperatura: {{ mesure.temperature }}<br>
+                    Ciśnienie: {{ mesure.pressure }}
+                </p>
+            </a>
         {% else %}
             Nie ma pomiarów.
         {% endfor %}
+        </div>
     {% endblock %}
 
 {% block javascripts %}
