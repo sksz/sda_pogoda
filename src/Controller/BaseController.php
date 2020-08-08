@@ -92,11 +92,11 @@ class BaseController extends AbstractController
 
     /**
      * @Route("/cityMesures", defaults={"_format"="html"}, name="cityMesures")
-     * @IsGranted("ROLE_ADMIN")
+     * @IsGranted("ROLE_USER")
      */
     public function cityMesuresAction(Request $request, string $_format): Response
     {
-        // $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        // $this->denyAccessUnlessGranted('ROLE_USER');
 
         $city = $request->query->get('city');
 

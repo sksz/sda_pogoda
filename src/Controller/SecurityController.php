@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Handler\MesurementHandler;
+use App\Handler\UserHandler;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,10 +29,11 @@ class SecurityController extends AbstractController
 
     private $logger;
 
-    public function __construct(LoggerInterface $logger, MesurementHandler $mesurementHandler)
+    public function __construct(LoggerInterface $logger, MesurementHandler $mesurementHandler, UserHandler $userHandler)
     {
         $this->logger = $logger;
         $this->mesurementHandler = $mesurementHandler;
+        $this->userHandler = $userHandler;
     }
 
     /**
@@ -53,35 +56,31 @@ class SecurityController extends AbstractController
      */
     public function registerUserAction(Request $request, string $_format): Response
     {
-        // $form = $this->createFormBuilder($user)
-        //     ->add('name', TextType::class, [
-        //         'constraints' => [
-        //             new Length(['min' => 4]),
-        //             new NotBlank(),
-        //         ],
-        //     ])
-        //     ->add('email', EmailType::class)
-        //     ->add('password', PasswordType::class, [
-        //         'constraints' => [
-        //             new NotBlank(),
-        //         ],
-        //     ])
-        //     ->add('save', SubmitType::class)
-        //     ->getForm();
+        $user = new User();
 
-        // $form->handleRequest($request);
+        $form = $this->createFormBuilder($user)
+            ->add('email', EmailType::class)
+            ->add('password', PasswordType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
+            ->add('save', SubmitType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
 
         $cities = $this->mesurementHandler->getCities();
 
         if ($form->isSubmitted() && $form->isValid()) {
             try {
-                // $this->userHandler->newuser($user);
+                $this->userHandler->newuser($user);
             } catch (UniqueConstraintViolationException $excpetion) {
                 return $this->render(
                     'registeredUserExists.' . $_format . '.twig',
                     [
                         'cities' => $cities,
-                        // 'form' => $form->createView(),
+                        'form' => $form->createView(),
                     ]
                 );
             }
@@ -91,7 +90,7 @@ class SecurityController extends AbstractController
             'registerUser.' . $_format . '.twig',
             [
                 'cities' => $cities,
-                // 'form' => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
