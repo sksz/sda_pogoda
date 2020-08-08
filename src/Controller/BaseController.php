@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class BaseController extends AbstractController
 {
@@ -63,9 +64,8 @@ class BaseController extends AbstractController
 
         $form = $this->createFormBuilder($contact)
             ->add('replyTo', EmailType::class)
-            ->add('content', TextType::class)
             ->add('name', TextType::class)
-            ->add('timestamp', DateTimeType::class)
+            ->add('content', TextareaType::class)
             ->add('save', SubmitType::class)
             ->getForm();
 
