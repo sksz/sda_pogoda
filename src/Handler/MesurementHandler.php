@@ -62,7 +62,7 @@ class MesurementHandler
         return $mesurement;
     }
 
-    public function getCities()
+    public function getCities(): array
     {
         $cities = $this
             ->entityManager
@@ -72,8 +72,7 @@ class MesurementHandler
         $result = [];
 
         foreach ($cities as $column => $city) {
-            $this->logger->info('city', ['city' => serialize($city)]);
-            $result[] = $city['city'];
+            $result[] = ucfirst($city['city']);
         }
 
         $this->logger->info('Pobrane miasta', [

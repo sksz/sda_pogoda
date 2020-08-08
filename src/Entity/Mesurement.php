@@ -69,7 +69,7 @@ class Mesurement
         return $this->temperature;
     }
 
-    public function setTemperature(float $temperature): self
+    public function setTemperature(?float $temperature): self
     {
         $this->temperature = $temperature;
 
@@ -81,7 +81,7 @@ class Mesurement
         return $this->windSpeed;
     }
 
-    public function setWindSpeed(float $windSpeed): self
+    public function setWindSpeed(?float $windSpeed): self
     {
         $this->windSpeed = $windSpeed;
 
@@ -93,7 +93,7 @@ class Mesurement
         return $this->windDirection;
     }
 
-    public function setWindDirection(int $windDirection): self
+    public function setWindDirection(?int $windDirection): self
     {
         $this->windDirection = $windDirection;
 
@@ -105,7 +105,7 @@ class Mesurement
         return $this->pressure;
     }
 
-    public function setPressure(float $pressure): self
+    public function setPressure(?float $pressure): self
     {
         $this->pressure = $pressure;
 
