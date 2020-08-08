@@ -2,15 +2,21 @@
 
 namespace App\Controller;
 
+use App\Handler\ContactHandler;
 use App\Handler\ImgwHandler;
 use App\Handler\MesurementHandler;
 use App\Entity\Mesurement;
+use App\Entity\Contact;
 use GuzzleHttp\Exception\ClientException;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class BaseController extends AbstractController
 {
@@ -20,11 +26,14 @@ class BaseController extends AbstractController
 
     private $mesurementHandler;
 
-    public function __construct(LoggerInterface $logger, ImgwHandler $imgwHandler, MesurementHandler $mesurementHandler)
+    private $contactHandler;
+
+    public function __construct(LoggerInterface $logger, ImgwHandler $imgwHandler, MesurementHandler $mesurementHandler, ContactHandler $contactHandler)
     {
         $this->logger = $logger;
         $this->imgwHandler = $imgwHandler;
         $this->mesurementHandler = $mesurementHandler;
+        $this->contactHandler = $contactHandler;
     }
 
     /**
@@ -41,6 +50,41 @@ class BaseController extends AbstractController
                     'user' => null,
                 ],
                 'cities' => $cities,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/contact", defaults={"_format"="html"}, name="contact")
+     */
+    public function contactAction(Request $request, string $_format): Response
+    {
+        $contact = new Contact();
+
+        $form = $this->createFormBuilder($contact)
+            ->add('replyTo', EmailType::class)
+            ->add('content', TextType::class)
+            ->add('name', TextType::class)
+            ->add('timestamp', DateTimeType::class)
+            ->add('save', SubmitType::class)
+            ->getForm();
+
+        $cities = $this->mesurementHandler->getCities();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->contactHandler->newContact($contact);
+        }
+
+        return $this->render(
+            'contact.' . $_format . '.twig',
+            [
+                'app' => [
+                    'user' => null,
+                ],
+                'cities' => $cities,
+                'form' => $form->createView(),
             ]
         );
     }

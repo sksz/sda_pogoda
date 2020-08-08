@@ -20,7 +20,7 @@ final class Version20200802095204 extends AbstractMigration
     public function up(Schema $schema) : void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE mesurement (id INT AUTO_INCREMENT NOT NULL, city VARCHAR(255) NOT NULL, temperature DOUBLE PRECISION NOT NULL, wind_speed DOUBLE PRECISION NOT NULL, wind_direction INT NOT NULL, pressure DOUBLE PRECISION NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE mesurement (id INT AUTO_INCREMENT NOT NULL, city VARCHAR(255) NOT NULL, temperature DOUBLE PRECISION, wind_speed DOUBLE PRECISION, wind_direction INT, pressure DOUBLE PRECISION, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema) : void
