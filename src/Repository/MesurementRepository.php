@@ -34,15 +34,24 @@ class MesurementRepository extends ServiceEntityRepository
         ;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Mesurement
+    public function findOneByCityDate(string $city, \DateTime $newerThan): ?Mesurement
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->createQueryBuilder('mesurement')
+            ->andWhere('mesurement.city = :city')
+            ->andWhere('mesurement.timestamp >= :timestamp')
+            ->setParameter('city', $city)
+            ->setParameter('timestamp', $newerThan)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
+
+    public function findCities(): array
+    {
+        return $this->createQueryBuilder('mesurement')
+            ->select('mesurement.city')
+            ->distinct()
+            ->getQuery()
+            ->getResult();
+    }
 }

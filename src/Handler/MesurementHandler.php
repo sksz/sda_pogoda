@@ -26,6 +26,18 @@ class MesurementHandler
 
     public function getCityRecords(string $city)
     {
+        $mesurements = $this
+            ->entityManager
+            ->getRepository(Mesurement::class)
+            ->findBy([
+                'city' => $city,
+            ]);
+
+        return $mesurements;
+    }
+
+    public function isActualCityRecord(string $city)
+    {
         $date = new \DateTime('NOW');
         $date->sub(new \DateInterval('PT' . 60 * 5 . 'S'));
 
@@ -34,6 +46,40 @@ class MesurementHandler
             ->getRepository(Mesurement::class)
             ->findByCityDate($city, $date);
 
-        return $mesurements;
+        return !empty($mesurements);
+    }
+
+    public function getActualCityRecord(string $city)
+    {
+        $date = new \DateTime('NOW');
+        $date->sub(new \DateInterval('PT' . 60 * 5 . 'S'));
+
+        $mesurement = $this
+            ->entityManager
+            ->getRepository(Mesurement::class)
+            ->findOneByCityDate($city, $date);
+
+        return $mesurement;
+    }
+
+    public function getCities()
+    {
+        $cities = $this
+            ->entityManager
+            ->getRepository(Mesurement::class)
+            ->findCities();
+
+        $result = [];
+
+        foreach ($cities as $column => $city) {
+            $this->logger->info('city', ['city' => serialize($city)]);
+            $result[] = $city['city'];
+        }
+
+        $this->logger->info('Pobrane miasta', [
+            'cities' => serialize($result)
+            ]);
+
+        return $result;
     }
 }

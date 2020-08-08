@@ -3,10 +3,11 @@
     {% block body %}
         Ilość pomiarów: {{ mesures|length }}
         {% for mesure in mesures %}
-            {{ loop.index }}:
-                {{ mesure.city }}
-                {{ mesure.temperature }}
-                {{ mesure.pressure }}
+            <br><br>Pomiar nr {{ loop.index }}:<br>
+                Miasto: {{ mesure.city }}<br>
+                Temperatura: {{ mesure.temperature }}<br>
+                Ciśnienie: {{ mesure.pressure }}<br>
+                Czas pomiaru: {{ mesure.timestamp|date("Y-m-d h:i:s") }}
         {% else %}
             Nie ma pomiarów.
         {% endfor %}

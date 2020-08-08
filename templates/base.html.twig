@@ -15,24 +15,16 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/weather?city=szczecin">Szczecin</a>
+                        {% for city in cities %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/weather?city={{ city }}">{{ city }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/weather?city=warszawa">Warszawa</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/weather?city=opole">Opole</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/weather?city=poznan">Poznań</a>
-                        </li>
+                        {% endfor %}
                     </ul>
                     <form class="form-inline my-2 my-lg-0" action="/findCity" method="post">
                         <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="city">
