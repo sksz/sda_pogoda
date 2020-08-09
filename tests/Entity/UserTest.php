@@ -53,6 +53,14 @@ class UserTest extends TestCase
             'Test pobrania domyślnych ról z encji `User` zakończył się niepowodzeniem.'
         );
 
+        $user->setRoles(['ROLE_USER']);
+
+        $this->assertSame(
+            ['ROLE_USER'],
+            $user->getRoles(),
+            'Test pobrania domyślnych ról z encji `User` zakończył się niepowodzeniem.'
+        );
+
         $user->setRoles(['ROLE_ADMIN']);
 
         $this->assertSame(
