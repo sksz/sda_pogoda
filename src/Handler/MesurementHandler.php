@@ -39,7 +39,7 @@ class MesurementHandler
     public function isActualCityRecord(string $city)
     {
         $date = new \DateTime('NOW');
-        $date->sub(new \DateInterval('PT' . 60 * 5 . 'S'));
+        $date->sub(new \DateInterval('PT' . 60 . 'S'));
 
         $mesurements = $this
             ->entityManager
@@ -52,7 +52,7 @@ class MesurementHandler
     public function getActualCityRecord(string $city)
     {
         $date = new \DateTime('NOW');
-        $date->sub(new \DateInterval('PT' . 60 * 5 . 'S'));
+        $date->sub(new \DateInterval('PT' . 60 . 'S'));
 
         $mesurement = $this
             ->entityManager

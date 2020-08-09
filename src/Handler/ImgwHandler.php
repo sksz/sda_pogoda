@@ -2,6 +2,7 @@
 
 namespace App\Handler;
 
+use App\Entity\Mesurement;
 use GuzzleHttp\Client;
 use Psr\Log\LoggerInterface;
 
@@ -31,18 +32,18 @@ class ImgwHandler
         $this->logger = $logger;
     }
 
-    public function getData(string $city): array
+    public function getData(string $city): Mesurement
     {
         $this->logger->info(
             'Pobieranie danych o pogodzie z wybranego miasta',
             compact('city')
         );
 
-        $city = $this->noPolishCharacters($city);
+        $noPolishCharactersCity = $this->noPolishCharacters($city);
 
         $response = $this->client->request(
             'GET',
-            self::IMGW_BASE_URL . $city,
+            self::IMGW_BASE_URL . $noPolishCharactersCity,
             [
                 'verify' => false,
             ]
@@ -62,12 +63,12 @@ class ImgwHandler
             compact('city', 'response')
         );
 
-        return $this->parseData(
-            json_decode(
-                $response->getBody(),
-                true
+        return (new Mesurement())
+            ->fromRowResponse(
+                json_decode($response->getBody(), true),
+                $city
             )
-        );
+        ;
     }
 
     private function noPolishCharacters(string $city)
@@ -81,32 +82,5 @@ class ImgwHandler
         }
 
         return $city;
-    }
-
-    public function parseData(array $data): array
-    {
-        $data['kierunek_wiatru_opis'] = $this->getWindDirection($data['kierunek_wiatru']);
-        $data['kierunek_wiatru_stopnie'] = $data['kierunek_wiatru'];
-
-        return $data;
-    }
-
-    private function getWindDirection(int $windDirectionInDegrees): string
-    {
-        if ($windDirectionInDegrees > 315 || $windDirectionInDegrees < 45) {
-            return 'N';
-        }
-
-        if ($windDirectionInDegrees >= 45 && $windDirectionInDegrees <= 135) {
-            return 'E';
-        }
-
-        if ($windDirectionInDegrees >= 135 && $windDirectionInDegrees <= 225) {
-            return 'S';
-        }
-
-        if ($windDirectionInDegrees >= 225 && $windDirectionInDegrees <= 315) {
-            return 'W';
-        }
     }
 }

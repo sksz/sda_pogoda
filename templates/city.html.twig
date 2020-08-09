@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
     {% block title %}{{ parent() }} - {{ city }}{% endblock %}
     {% block body %}
-        Temperatura: {{ temperature }} <br />
-        Prędkość wiatru: {{ windSpeed }} <br />
-        Kierunek wiatru: {{ windDirectionDescription }} <br />
-        Ciśnienie: {{ pressure }} <br />
-        <div class="js-wind-direction" data-degrees="{{ windDirectionDegrees }}">
+        Temperatura: {{ mesurement.temperature }} <br />
+        Prędkość wiatru: {{ mesurement.windSpeed }} <br />
+        Ciśnienie: {{ mesurement.pressure }} <br />
+        <div class="js-wind-direction" data-degrees="{{ mesurement.windDirection }}">
         </div>
         <img id="arrow-image" src="{{ asset('build/arrow.png') }}" alt="arrow" />
         {% if is_granted('ROLE_USER') %}

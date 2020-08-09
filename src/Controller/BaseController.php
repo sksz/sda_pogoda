@@ -43,15 +43,13 @@ class BaseController extends AbstractController
      */
     public function indexAction(Request $request, string $_format): Response
     {
-        $cities = $this->mesurementHandler->getCities();
-
         return $this->render(
             'base.' . $_format . '.twig',
             [
                 'app' => [
                     'user' => null,
                 ],
-                'cities' => $cities,
+                'cities' => $this->mesurementHandler->getCities(),
             ]
         );
     }
@@ -70,8 +68,6 @@ class BaseController extends AbstractController
             ->add('save', SubmitType::class)
             ->getForm();
 
-        $cities = $this->mesurementHandler->getCities();
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -84,7 +80,7 @@ class BaseController extends AbstractController
                 'app' => [
                     'user' => null,
                 ],
-                'cities' => $cities,
+                'cities' => $this->mesurementHandler->getCities(),
                 'form' => $form->createView(),
             ]
         );
@@ -96,25 +92,14 @@ class BaseController extends AbstractController
      */
     public function cityMesuresAction(Request $request, string $_format): Response
     {
-        // $this->denyAccessUnlessGranted('ROLE_USER');
-
         $city = $request->query->get('city');
-
-        $mesures = $this->mesurementHandler->getCityRecords($city);
-
-        $this->logger->info('Pobrane pomiary dla miasta', [
-            'city' => $city,
-            'mesures' => $mesures,
-        ]);
-
-        $cities = $this->mesurementHandler->getCities();
 
         return $this->render(
             'cityMesurments.' . $_format . '.twig',
             [
                 'city' => $city,
-                'cities' => $cities,
-                'mesures' => $mesures,
+                'cities' => $this->mesurementHandler->getCities(),
+                'mesures' => $this->mesurementHandler->getCityRecords($city),
             ]
         );
     }
@@ -124,23 +109,25 @@ class BaseController extends AbstractController
      */
     public function findCityAction(Request $request, string $_format): Response
     {
-        $this->logger->info('Wyszukaj miasta', [
-            'city' => $request->request->get('city'),
-        ]);
-
         $city = $request->request->get('city');
 
         try {
             $this->imgwHandler->getData($city);
         } catch (ClientException $exception) {
-            $cities = $this->mesurementHandler->getCities();
-
-            return $this->render('noCity.' . $_format . '.twig', [
-                'cities' => $cities,
-            ]);
+            return $this->render(
+                'noCity.' . $_format . '.twig',
+                [
+                    'cities' => $this->mesurementHandler->getCities(),
+                ]
+            );
         }
 
-        return $this->redirectToRoute('weather', ['city' => $city]);
+        return $this->redirectToRoute(
+            'weather',
+            [
+                'city' => $city
+            ]
+        );
     }
 
     /**
@@ -150,63 +137,33 @@ class BaseController extends AbstractController
     {
         $city = $request->query->get('city');
 
-        $this->logger->info('Wyświetl pogodę dla miasta', [
-            'city' => $city,
-        ]);
-
-        $cities = $this->mesurementHandler->getCities();
-
         if (!$this->mesurementHandler->isActualCityRecord($city)) {
-            $mesurementData = $this->imgwHandler->getData($city);
-            $this->mesurementHandler->add(
-                $this->createMesurementEntity(
-                    $mesurementData,
-                    $city
-                )
-            );
+            $mesurement = $this->imgwHandler->getData($city);
+
+            $this->mesurementHandler->add($mesurement);
 
             return $this->renderWeatherView(
-                $mesurementData,
+                $mesurement,
                 $city,
-                $cities,
+                $this->mesurementHandler->getCities(),
                 $_format
             );
         }
 
-        $cityRecord = $this->mesurementHandler->getActualCityRecord($city);
-
         return $this->renderWeatherView(
-            $this->imgwHandler->parseData($cityRecord->convertToArray()),
+            $this->mesurementHandler->getActualCityRecord($city),
             $city,
-            $cities,
+            $this->mesurementHandler->getCities(),
             $_format
         );
     }
 
-    private function createMesurementEntity(array $mesurementData, string $city): Mesurement
-    {
-        $mesurementEntity = new Mesurement();
-        $mesurementEntity
-            ->setCity($city)
-            ->setTemperature($mesurementData['temperatura'])
-            ->setWindSpeed($mesurementData['predkosc_wiatru'])
-            ->setWindDirection($mesurementData['kierunek_wiatru_stopnie'])
-            ->setPressure($mesurementData['cisnienie'])
-            ->setTimestamp(new \DateTime('NOW'));
-
-        return $mesurementEntity;
-    }
-
-    private function renderWeatherView(array $data, string $city, array $cities, string $_format): Response
+    private function renderWeatherView(Mesurement $mesurement, string $city, array $cities, string $_format): Response
     {
         return $this->render(
             'city.' . $_format . '.twig',
             [
-                'temperature' => $data['temperatura'],
-                'windSpeed' => $data['predkosc_wiatru'],
-                'windDirectionDescription' => $data['kierunek_wiatru_opis'],
-                'windDirectionDegrees' => $data['kierunek_wiatru_stopnie'],
-                'pressure' => $data['cisnienie'],
+                'mesurement' => $mesurement,
                 'city' => ucfirst($city),
                 'cities' => $cities,
             ]

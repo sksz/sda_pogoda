@@ -117,20 +117,25 @@ class Mesurement
         return $this->timestamp;
     }
 
-    public function setTimestamp(\DateTimeInterface $timestamp): self
+    public function setTimestamp(?\DateTimeInterface $timestamp = null): self
     {
+        if (is_null($timestamp)) {
+            $timestamp = new \DateTime('NOW');
+        }
+
         $this->timestamp = $timestamp;
 
         return $this;
     }
 
-    public function convertToArray(): array
+    public function fromRowResponse($response, $city): self
     {
-        return [
-            'temperatura' => $this->temperature,
-            'predkosc_wiatru' => $this->windSpeed,
-            'kierunek_wiatru' => $this->windDirection,
-            'cisnienie' => $this->pressure,
-        ];
+        return $this
+            ->setCity($city)
+            ->setTemperature($response['temperatura'])
+            ->setWindSpeed($response['predkosc_wiatru'])
+            ->setWindDirection($response['kierunek_wiatru'])
+            ->setPressure($response['cisnienie'])
+            ->setTimestamp();
     }
 }
