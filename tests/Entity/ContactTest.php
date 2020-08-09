@@ -7,6 +7,16 @@ use App\Entity\Contact;
 
 class ContactTest extends TestCase
 {
+    public function testgetId()
+    {
+        $contact = new Contact();
+
+        $this->assertNull(
+            $contact->getId(),
+            'Test ustawienia pola `id` w encji `Contact` zakończył się niepowodzeniem.'
+        );
+    }
+
     public function testCanSetReplyTo()
     {
         $contact = new Contact();

@@ -7,6 +7,16 @@ use App\Entity\User;
 
 class UserTest extends TestCase
 {
+    public function testgetId()
+    {
+        $user = new User();
+
+        $this->assertNull(
+            $user->getId(),
+            'Test ustawienia pola `id` w encji `User` zakończył się niepowodzeniem.'
+        );
+    }
+
     public function testSetEmail()
     {
         $user = new User();
@@ -67,6 +77,26 @@ class UserTest extends TestCase
             ['ROLE_ADMIN', 'ROLE_USER'],
             $user->getRoles(),
             'Test ustawienia ról z encji `User` zakończył się niepowodzeniem.'
+        );
+    }
+
+    public function testGetSalt()
+    {
+        $user = new User();
+
+        $this->assertNull(
+            $user->getSalt(),
+            'Test pobierania salta w encji `User` zakończył się niepowodzeniem.'
+        );
+    }
+
+    public function testEraseCredentials()
+    {
+        $user = new User();
+
+        $this->assertNull(
+            $user->eraseCredentials(),
+            'Test czyszczenia danych jawnych w encji `User` zakończył się niepowodzeniem.'
         );
     }
 }

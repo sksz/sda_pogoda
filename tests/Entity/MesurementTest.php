@@ -7,6 +7,16 @@ use App\Entity\Mesurement;
 
 class MesurementTest extends TestCase
 {
+    public function testgetId()
+    {
+        $mesurement = new Mesurement();
+
+        $this->assertNull(
+            $mesurement->getId(),
+            'Test ustawienia pola `id` w encji `Mesurement` zakończył się niepowodzeniem.'
+        );
+    }
+
     public function testCanSetCity()
     {
         $mesurement = new Mesurement();
