@@ -58,14 +58,19 @@ class ImgwHandler
             throw new \Exception('Błąd pobierania danych');
         }
 
+        $responseBody = json_decode($response->getBody(), true);
+
         $this->logger->info(
             'Pobrane dane o pogodzie w mieście',
-            compact('city', 'response')
+            [
+                'city' => $city,
+                'response' => $responseBody,
+            ]
         );
 
         return (new Mesurement())
             ->fromRowResponse(
-                json_decode($response->getBody(), true),
+                $responseBody,
                 $city
             )
         ;

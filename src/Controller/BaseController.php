@@ -46,9 +46,6 @@ class BaseController extends AbstractController
         return $this->render(
             'base.' . $_format . '.twig',
             [
-                'app' => [
-                    'user' => null,
-                ],
                 'cities' => $this->mesurementHandler->getCities(),
             ]
         );
@@ -77,9 +74,6 @@ class BaseController extends AbstractController
         return $this->render(
             'contact.' . $_format . '.twig',
             [
-                'app' => [
-                    'user' => null,
-                ],
                 'cities' => $this->mesurementHandler->getCities(),
                 'form' => $form->createView(),
             ]

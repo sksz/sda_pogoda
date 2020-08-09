@@ -23,22 +23,22 @@ class Mesurement
     private $city;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $temperature;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $windSpeed;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $windDirection;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="float", nullable=true)
      */
     private $pressure;
 
@@ -46,6 +46,21 @@ class Mesurement
      * @ORM\Column(type="datetime")
      */
     private $timestamp;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $stationId;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $rain;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $humidity;
 
     public function getId(): ?int
     {
@@ -128,6 +143,42 @@ class Mesurement
         return $this;
     }
 
+    public function getStationId(): ?int
+    {
+        return $this->stationId;
+    }
+
+    public function setStationId(int $stationId): self
+    {
+        $this->stationId = $stationId;
+
+        return $this;
+    }
+
+    public function getRain(): ?int
+    {
+        return $this->rain;
+    }
+
+    public function setRain(?int $rain): self
+    {
+        $this->rain = $rain;
+
+        return $this;
+    }
+
+    public function getHumidity(): ?float
+    {
+        return $this->humidity;
+    }
+
+    public function setHumidity(?float $humidity): self
+    {
+        $this->humidity = $humidity;
+
+        return $this;
+    }
+
     public function fromRowResponse($response, $city): self
     {
         return $this
@@ -136,6 +187,9 @@ class Mesurement
             ->setWindSpeed($response['predkosc_wiatru'])
             ->setWindDirection($response['kierunek_wiatru'])
             ->setPressure($response['cisnienie'])
+            ->setStationId($response['id_stacji'])
+            ->setRain($response['suma_opadu'])
+            ->setHumidity($response['wilgotnosc_wzgledna'])
             ->setTimestamp();
     }
 }

@@ -10,8 +10,28 @@
                     <small>{{ mesure.timestamp|date("Y-m-d h:i:s") }}</small>
                 </div>
                 <p class="mb-1">
-                    Temperatura: {{ mesure.temperature }}<br>
-                    Ciśnienie: {{ mesure.pressure }}
+                    <h1 class="display-4">
+                        {{ city }} ({{ mesure.stationId }})
+                    </h1>
+                    <hr class="my-4">
+                    <p class="lead">
+                        Temperatura: {{ mesure.temperature }}
+                    </p>
+                    <p class="lead">
+                        Prędkość wiatru: {{ mesure.windSpeed }}
+                    </p>
+                    <p class="lead">
+                        Ciśnienie: {{ mesure.pressure }}
+                    </p>
+                    <p class="lead">
+                        Suma opadów: {{ mesure.rain }}
+                    </p>
+                    <p class="lead">
+                        Wilgotność względna: {{ mesure.humidity }}
+                    </p>
+                    <div class="js-wind-direction-{{ loop.index }}" data-degrees="{{ mesure.windDirection }}">
+                    </div>
+                    <img id="arrow-image-{{ loop.index }}" src="{{ asset('build/arrow.png') }}" alt="arrow" />
                 </p>
             </a>
         {% else %}
@@ -21,5 +41,5 @@
     {% endblock %}
 
 {% block javascripts %}
-    {{ encore_entry_script_tags('city') }}
+    {{ encore_entry_script_tags('cities') }}
 {% endblock %}

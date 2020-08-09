@@ -1,15 +1,37 @@
 {% extends 'base.html.twig' %}
     {% block title %}{{ parent() }} - {{ city }}{% endblock %}
     {% block body %}
-        Temperatura: {{ mesurement.temperature }} <br />
-        Prędkość wiatru: {{ mesurement.windSpeed }} <br />
-        Ciśnienie: {{ mesurement.pressure }} <br />
-        <div class="js-wind-direction" data-degrees="{{ mesurement.windDirection }}">
+        <div class="jumbotron">
+            <h1 class="display-4">
+                {{ city }} ({{ mesurement.stationId }})
+            </h1>
+            <hr class="my-4">
+            <p class="lead">
+                Temperatura: {{ mesurement.temperature }}
+            </p>
+            <p class="lead">
+                Prędkość wiatru: {{ mesurement.windSpeed }}
+            </p>
+            <p class="lead">
+                Ciśnienie: {{ mesurement.pressure }}
+            </p>
+            <p class="lead">
+                Suma opadów: {{ mesurement.rain }}
+            </p>
+            <p class="lead">
+                Wilgotność względna: {{ mesurement.humidity }}
+            </p>
+            <div class="js-wind-direction" data-degrees="{{ mesurement.windDirection }}">
+            </div>
+            <img id="arrow-image" src="{{ asset('build/arrow.png') }}" alt="arrow" />
+            {% if is_granted('ROLE_USER') %}
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="cityMesures?city={{ city }}" >
+                        Historia pomiarów
+                    </a>
+                </p>
+            {% endif %}
         </div>
-        <img id="arrow-image" src="{{ asset('build/arrow.png') }}" alt="arrow" />
-        {% if is_granted('ROLE_USER') %}
-            <br><a href="cityMesures?city={{ city }}" >Historia pomiarów</a>
-        {% endif %}
     {% endblock %}
 
 {% block javascripts %}
