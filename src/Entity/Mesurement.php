@@ -179,7 +179,7 @@ class Mesurement
         return $this;
     }
 
-    public function fromRowResponse($response, $city): self
+    public function fromRowResponse(array $response, string $city): self
     {
         return $this
             ->setCity($city)
