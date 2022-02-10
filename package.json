@@ -25,7 +25,7 @@
         "bootstrap-sass": "^3.4.1",
         "bootstrap-star-rating": "^4.0.6",
         "glyphicons": "^0.2.0",
-        "node-sass": "^4.14.1",
+        "node-sass": "^7.0.0",
         "nvm": "0.0.4",
         "prop-types": "^15.7.2",
         "react": "^16.13.1",
